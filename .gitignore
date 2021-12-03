@@ -16,6 +16,6 @@ mrgit.json
 
 .npmrc
 
-# build/
-# !packages/ckeditor5-build-*/build
+build/
+!packages/ckeditor5-build-*/build
 
