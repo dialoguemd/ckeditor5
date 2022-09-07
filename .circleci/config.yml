@@ -22,11 +22,11 @@ jobs:
           paths:
             - ~/.npm
 
-      - run: npm run lint
+#      - run: npm run lint
 
       # - run: npm run test -- --coverage
 
-      - run: npm run build
+#      - run: npm run build
 
       - deploy:
           name: Publish to NPM
