@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
-      - run:  npm publish --registry https://$GEMFURY_TOKEN@push.fury.io/dialogue/
+      - run:  npm publish --registry https://npm-proxy.fury.io/dialogue/
 
 workflows:
   build:
