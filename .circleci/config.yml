@@ -1,6 +1,7 @@
 version: 2.1
 jobs:
   publish:
+    working_directory: ~/ckeditor5
     docker:
       - image: circleci/node:14
     steps:
