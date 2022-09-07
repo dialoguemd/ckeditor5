@@ -13,8 +13,8 @@ workflows:
   build:
     jobs:
       - publish:
-          filters:
-            tags:
-              only: /.*/
+#          filters:
+#            tags:
+#              only: /.*/
           context:
             - gemfury-upload
