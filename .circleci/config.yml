@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
-      - run:  npm publish --registry https://npm-proxy.fury.io/dialogue/
+      - run:  cd ~/ckeditor5/packages/ckeditor5-build-balloon-block && npm publish --registry https://npm-proxy.fury.io/dialogue/
 
 workflows:
   build:
