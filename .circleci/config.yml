@@ -1,44 +1,18 @@
 version: 2.1
 jobs:
-  build:
+  publish:
     working_directory: ~/ckeditor5/packages/ckeditor5-build-balloon-block
     docker:
       - image: circleci/node:14
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-            - ckeditor5-{{ .Branch }}-{{ checksum "package.json" }}
-            - ckeditor5-{{ .Branch }}-
-            - ckeditor5-
-
       - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
-
-      - run: npm ci
-
-      - save_cache:
-          key: v1-basics-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - ~/.npm
-
-      - run: npm run lint
-
-      # - run: npm run test -- --coverage
-
-      - run: npm run build
-
-      - deploy:
-          name: Publish to NPM
-          command: |
-            if [[ $CIRCLE_TAG ]]; then
-              npm pack | { read file_name; curl -F "package=@$file_name" "https://$GEMFURY_TOKEN@push.fury.io/dialogue/"; }
-            fi
+      - run:  npm publish --registry https://$GEMFURY_TOKEN@push.fury.io/dialogue/
 
 workflows:
   build:
     jobs:
-      - build:
+      - publish:
           filters:
             tags:
               only: /.*/
