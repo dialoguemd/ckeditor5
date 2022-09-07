@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
-      - run: npm pack | { read file_name; curl -F "package=@$file_name" "https://$GEMFURY_TOKEN@push.fury.io/dialogue/"; }
+      - run: cd ~/ckeditor5/packages/ckeditor5-build-balloon-block && npm pack | { read file_name; curl -F "package=@$file_name" "https://$GEMFURY_TOKEN@push.fury.io/dialogue/"; }
 
 workflows:
   publish:
