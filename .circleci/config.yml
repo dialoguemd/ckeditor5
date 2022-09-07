@@ -1,9 +1,9 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/ckeditor5
+    working_directory: ~/ckeditor5/packages/ckeditor5-build-balloon-block
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:14
     steps:
       - checkout
 
