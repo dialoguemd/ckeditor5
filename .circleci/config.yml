@@ -3,14 +3,14 @@ jobs:
   publish:
     working_directory: ~/ckeditor5/packages/ckeditor5-build-balloon-block
     docker:
-      - image: circleci/node:14
+      - image: circleci/node:16
     steps:
       - checkout
       - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
       - run:  cd ~/ckeditor5/packages/ckeditor5-build-balloon-block && npm publish --registry https://$NPM_TOKEN@push.fury.io/dialogue/
 
 workflows:
-  build:
+  publish:
     jobs:
       - publish:
 #          filters:
