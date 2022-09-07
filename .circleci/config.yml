@@ -1,31 +1,20 @@
 version: 2.1
-
-
 jobs:
-  build:
+  publish:
+    working_directory: ~/ckeditor5
     docker:
       - image: circleci/node:14
     steps:
       - checkout
-      - run:
-          name: Create distribution
-          command: |
-            printf "registry=https://tictrac.jfrog.io/artifactory/api/npm/npm/\nemail=developer@tictrac.com\nalways-auth=true\n_auth=$JFROG_AUTH_ENC" > ~/.npmrc
-            cd packages/ckeditor5-build-balloon-block
-            npm publish --registry https://tictrac.jfrog.io/artifactory/api/npm/npm/
-      - slack/status
+      - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
+      - run: cd ~/ckeditor5/packages/ckeditor5-build-balloon-block && npm pack | { read file_name; curl -F "package=@$file_name" "https://$GEMFURY_TOKEN@push.fury.io/dialogue/"; }
 
 workflows:
-  tictrac:
+  publish:
     jobs:
-      - build:
-          name: Docker build
-          context: Infrastructure
+      - publish:
           filters:
             tags:
-              only: /^.*/
-            branches:
               only: /.*/
-
-orbs:
-  slack: circleci/slack@3.4.2
+          context:
+            - gemfury-upload
