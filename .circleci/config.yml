@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
-      - run: npm publish
+      - run: npm pack | { read file_name; curl -F "package=@$file_name" "https://$NPM_TOKEN@push.fury.io/dialogue/"; }
 
 workflows:
   publish:
