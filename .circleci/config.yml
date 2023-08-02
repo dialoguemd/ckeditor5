@@ -1,20 +1,26 @@
 version: 2.1
-jobs:
-  publish:
-    working_directory: ~/ckeditor5
-    docker:
-      - image: circleci/node:14
-    steps:
-      - checkout
-      - run: echo //npm-proxy.fury.io/dialogue/:_authToken=$GEMFURY_TOKEN >> ~/.npmrc
-      - run: cd ~/ckeditor5/packages/ckeditor5-build-balloon-block && npm pack | { read file_name; curl -F "package=@$file_name" "https://$GEMFURY_TOKEN@push.fury.io/dialogue/"; }
+
+orbs:
+  node: dialogue/node@1.0.0
+
+aliases:
+  - &executor
+    executor:
+      name: node/node
+      version: "14.21.3"
 
 workflows:
-  publish:
+  release:
     jobs:
-      - publish:
+      - node/publish_package:
+          name: 🚀 publish
+          working_directory: ~/project/packages/ckeditor5-build-balloon-block
+          build_command: ""  
+          release_command: ""  
           filters:
             tags:
-              only: /.*/
-          context:
-            - gemfury-upload
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+          <<: *executor
+          context: library-publisher
